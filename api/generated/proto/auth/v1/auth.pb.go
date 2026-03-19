@@ -26,8 +26,8 @@ type RegisterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
-	Nickname      string                 `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	Username      string                 `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
+	Nickname      *string                `protobuf:"bytes,4,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -76,13 +76,6 @@ func (x *RegisterRequest) GetPassword() string {
 	return ""
 }
 
-func (x *RegisterRequest) GetNickname() string {
-	if x != nil {
-		return x.Nickname
-	}
-	return ""
-}
-
 func (x *RegisterRequest) GetUsername() string {
 	if x != nil {
 		return x.Username
@@ -90,10 +83,17 @@ func (x *RegisterRequest) GetUsername() string {
 	return ""
 }
 
+func (x *RegisterRequest) GetNickname() string {
+	if x != nil && x.Nickname != nil {
+		return *x.Nickname
+	}
+	return ""
+}
+
 type RegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -135,9 +135,9 @@ func (x *RegisterResponse) GetUserId() string {
 	return ""
 }
 
-func (x *RegisterResponse) GetToken() string {
+func (x *RegisterResponse) GetAccessToken() string {
 	if x != nil {
-		return x.Token
+		return x.AccessToken
 	}
 	return ""
 }
@@ -197,7 +197,7 @@ func (x *LoginRequest) GetPassword() string {
 type LoginResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -239,9 +239,9 @@ func (x *LoginResponse) GetUserId() string {
 	return ""
 }
 
-func (x *LoginResponse) GetToken() string {
+func (x *LoginResponse) GetAccessToken() string {
 	if x != nil {
-		return x.Token
+		return x.AccessToken
 	}
 	return ""
 }
@@ -250,24 +250,25 @@ var File_proto_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_proto_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x18proto/auth/v1/auth.proto\x12\rmapps.auth.v1\x1a\x1cgoogle/api/annotations.proto\"{\n" +
+	"\x18proto/auth/v1/auth.proto\x12\rmapps.auth.v1\x1a\x1cgoogle/api/annotations.proto\"\x8d\x01\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1a\n" +
-	"\bnickname\x18\x03 \x01(\tR\bnickname\x12\x1a\n" +
-	"\busername\x18\x04 \x01(\tR\busername\"A\n" +
+	"\busername\x18\x03 \x01(\tR\busername\x12\x1f\n" +
+	"\bnickname\x18\x04 \x01(\tH\x00R\bnickname\x88\x01\x01B\v\n" +
+	"\t_nickname\"N\n" +
 	"\x10RegisterResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05token\x18\x02 \x01(\tR\x05token\"@\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"\faccess_token\x18\x02 \x01(\tR\vaccessToken\"@\n" +
 	"\fLoginRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\">\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"K\n" +
 	"\rLoginResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05token\x18\x02 \x01(\tR\x05token2\xe6\x01\n" +
-	"\x04Auth\x12t\n" +
-	"\bRegister\x12\x1e.mapps.auth.v1.RegisterRequest\x1a\x1f.mapps.auth.v1.RegisterResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v1/mobile/auth/register\x12h\n" +
-	"\x05Login\x12\x1b.mapps.auth.v1.LoginRequest\x1a\x1c.mapps.auth.v1.LoginResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/api/v1/mobile/auth/loginB\xa6\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"\faccess_token\x18\x02 \x01(\tR\vaccessToken2\xe4\x01\n" +
+	"\x04Auth\x12s\n" +
+	"\bRegister\x12\x1e.mapps.auth.v1.RegisterRequest\x1a\x1f.mapps.auth.v1.RegisterResponse\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1bapi/mobile/v1/auth/register\x12g\n" +
+	"\x05Login\x12\x1b.mapps.auth.v1.LoginRequest\x1a\x1c.mapps.auth.v1.LoginResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18api/mobile/v1/auth/loginB\xa6\x01\n" +
 	"\x11com.mapps.auth.v1B\tAuthProtoP\x01Z0mapps_gateway/api/generated/proto/auth/v1;authv1\xa2\x02\x03MAX\xaa\x02\rMapps.Auth.V1\xca\x02\rMapps\\Auth\\V1\xe2\x02\x19Mapps\\Auth\\V1\\GPBMetadata\xea\x02\x0fMapps::Auth::V1b\x06proto3"
 
 var (
@@ -306,6 +307,7 @@ func file_proto_auth_v1_auth_proto_init() {
 	if File_proto_auth_v1_auth_proto != nil {
 		return
 	}
+	file_proto_auth_v1_auth_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

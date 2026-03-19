@@ -1,2 +1,36 @@
-.idea
-/configs
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Env / secrets
+*.env
+!*.env.example
+
+# Configs with real values (use configs_example/ as template)
+/configs/
+
+# Go build
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test
+*.test
+*.out
+coverage.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated proto (regenerate via: make generate_contracts)
+api/generated/
+
+# Wire generated (regenerate via: make wire)
+cmd/mApps_gateway/wire_gen.go

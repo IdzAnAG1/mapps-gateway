@@ -31,8 +31,8 @@ type AuthHTTPServer interface {
 
 func RegisterAuthHTTPServer(s *http.Server, srv AuthHTTPServer) {
 	r := s.Route("/")
-	r.POST("/api/v1/mobile/auth/register", _Auth_Register0_HTTP_Handler(srv))
-	r.POST("/api/v1/mobile/auth/login", _Auth_Login0_HTTP_Handler(srv))
+	r.POST("api/mobile/v1/auth/register", _Auth_Register0_HTTP_Handler(srv))
+	r.POST("api/mobile/v1/auth/login", _Auth_Login0_HTTP_Handler(srv))
 }
 
 func _Auth_Register0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
@@ -97,7 +97,7 @@ func NewAuthHTTPClient(client *http.Client) AuthHTTPClient {
 // Login Login user if he registered in the system
 func (c *AuthHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginResponse, error) {
 	var out LoginResponse
-	pattern := "/api/v1/mobile/auth/login"
+	pattern := "api/mobile/v1/auth/login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAuthLogin))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -111,7 +111,7 @@ func (c *AuthHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts .
 // Register Register new user in the system
 func (c *AuthHTTPClientImpl) Register(ctx context.Context, in *RegisterRequest, opts ...http.CallOption) (*RegisterResponse, error) {
 	var out RegisterResponse
-	pattern := "/api/v1/mobile/auth/register"
+	pattern := "api/mobile/v1/auth/register"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAuthRegister))
 	opts = append(opts, http.PathTemplate(pattern))
