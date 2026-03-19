@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package viability;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "mapps_gateway/api/viability;viability";
+
+service Viability {
+  rpc Health(google.protobuf.Empty) returns (HealthReply) {
+    option (google.api.http) = {
+      get: "/api/v1/viability/health"
+    };
+  }
+  rpc Ready (google.protobuf.Empty) returns (ReadinessReply) {
+    option (google.api.http) = {
+      get: "/api/v1/viability/ready"
+    };
+  }
+}
+
+message ReadinessReply {
+  string status = 1;
+  string auth_status = 2;
+  string auth_db_status = 3;
+  string auth_uptime = 4;
+  string product_status = 5;
+  string asset_manager_status = 6;
+}
+
+message HealthReply {
+  string gateway_status = 1;
+  string gateway_uptime = 2;
+}
