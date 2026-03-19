@@ -1,0 +1,21 @@
+version: v2
+
+managed:
+  enabled: true
+  disable:
+    - module: buf.build/googleapis/googleapis
+      file_option: go_package_prefix
+  override:
+    - file_option: go_package_prefix
+      value: mapps_gateway/api/generated
+
+plugins:
+  - local: protoc-gen-go-http
+    out: ./api/generated
+    opt: paths=source_relative
+  - remote: buf.build/protocolbuffers/go
+    out: ./api/generated
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go
+    out: ./api/generated
+    opt: paths=source_relative
