@@ -6,40 +6,39 @@
 
 ## Auth
 
-| Method | Path | Body |
-|--------|------|------|
-| `POST` | `/api/mobile/v1/auth/register` | `email`, `password`, `username`, `nickname` |
-| `POST` | `/api/mobile/v1/auth/login` | `email`, `password` |
-
 ### Register
-```json
-{
-  "email": "user@example.com",
-  "password": "secret123",
-  "username": "john_doe",
-  "nickname": "John"
-}
+```bash
+curl -X POST http://130.49.148.135/api/mobile/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "secret123",
+    "username": "john_doe",
+    "nickname": "John"
+  }'
 ```
 Response:
 ```json
 {
-  "user_id": "uuid",
-  "access_token": "jwt_token"
+  "user_id": "550e8400-e29b-41d4-a716-446655440000",
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
 ### Login
-```json
-{
-  "email": "user@example.com",
-  "password": "secret123"
-}
+```bash
+curl -X POST http://130.49.148.135/api/mobile/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "secret123"
+  }'
 ```
 Response:
 ```json
 {
-  "user_id": "uuid",
-  "access_token": "jwt_token"
+  "user_id": "550e8400-e29b-41d4-a716-446655440000",
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
@@ -47,44 +46,99 @@ Response:
 
 ## Products
 
-| Method | Path | Params / Body |
-|--------|------|---------------|
-| `GET` | `/api/v1/mobile/products` | `?category`, `?name`, `?price`, `?page`, `?page_size` |
-| `GET` | `/api/v1/mobile/products/{product_id}` | — |
-| `POST` | `/api/v1/mobile/products` | `name`, `description`, `price`, `category`, `model_id`, `virtual_image_id` |
-| `PUT` | `/api/v1/mobile/products/{product_id}` | `name`, `description`, `price`, `category`, `model_id`, `virtual_image_id` |
-
 ### List Products
+```bash
+curl "http://130.49.148.135/api/v1/mobile/products?category=sofas&page=1&page_size=10"
 ```
-GET /api/v1/mobile/products?category=sofas&page=1&page_size=10
+Response:
+```json
+{
+  "products": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Диван угловой",
+      "description": "Мягкий угловой диван",
+      "price": 49999.99,
+      "category": "sofas",
+      "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
+      "virtual_image_id": ""
+    }
+  ]
+}
 ```
 
 ### Get Product
+```bash
+curl http://130.49.148.135/api/v1/mobile/products/550e8400-e29b-41d4-a716-446655440000
 ```
-GET /api/v1/mobile/products/{product_id}
+Response:
+```json
+{
+  "product": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "Диван угловой",
+    "description": "Мягкий угловой диван",
+    "price": 49999.99,
+    "category": "sofas",
+    "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
+    "virtual_image_id": ""
+  }
+}
 ```
 
 ### Create Product
+```bash
+curl -X POST http://130.49.148.135/api/v1/mobile/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Диван угловой",
+    "description": "Мягкий угловой диван",
+    "price": 49999.99,
+    "category": "sofas",
+    "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
+    "virtual_image_id": ""
+  }'
+```
+Response:
 ```json
 {
-  "name": "Диван угловой",
-  "description": "Мягкий угловой диван",
-  "price": 49999.99,
-  "category": "sofas",
-  "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
-  "virtual_image_id": ""
+  "product": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "Диван угловой",
+    "description": "Мягкий угловой диван",
+    "price": 49999.99,
+    "category": "sofas",
+    "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
+    "virtual_image_id": ""
+  }
 }
 ```
 
 ### Update Product
+```bash
+curl -X PUT http://130.49.148.135/api/v1/mobile/products/550e8400-e29b-41d4-a716-446655440000 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Диван обновлённый",
+    "description": "Обновлённое описание",
+    "price": 44999.99,
+    "category": "sofas",
+    "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
+    "virtual_image_id": ""
+  }'
+```
+Response:
 ```json
 {
-  "name": "Диван обновлённый",
-  "description": "Обновлённое описание",
-  "price": 44999.99,
-  "category": "sofas",
-  "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
-  "virtual_image_id": ""
+  "product": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "Диван обновлённый",
+    "description": "Обновлённое описание",
+    "price": 44999.99,
+    "category": "sofas",
+    "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
+    "virtual_image_id": ""
+  }
 }
 ```
 
@@ -92,67 +146,79 @@ GET /api/v1/mobile/products/{product_id}
 
 ## Assets
 
-| Method | Path | Body |
-|--------|------|------|
-| `POST` | `/api/v1/assets/models/upload-url` | `name`, `format`, `mime_type` |
-| `GET` | `/api/v1/assets/models/{model_id}` | — |
-| `POST` | `/api/v1/assets/textures/upload-url` | `name`, `mime_type` |
-| `GET` | `/api/v1/assets/textures/{asset_id}` | — |
-
-### Get Model Upload URL
-```json
-{
-  "name": "sofa",
-  "format": "glb",
-  "mime_type": "model/gltf-binary"
-}
+### Шаг 1 — получить presigned URL для загрузки модели
+```bash
+curl -X POST http://130.49.148.135/api/v1/assets/models/upload-url \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "sofa",
+    "format": "glb",
+    "mime_type": "model/gltf-binary"
+  }'
 ```
 Response:
 ```json
 {
-  "upload_url": "http://...",
-  "model_id": "uuid"
+  "upload_url": "http://100.84.79.40:9000/mapps-assets/models/edb83f76-9e72-48c9-91b0-3644c34550a6.glb?X-Amz-Algorithm=...",
+  "model_id": "edb83f76-9e72-48c9-91b0-3644c34550a6"
 }
 ```
 
-### Upload Model (прямо в S3 по presigned URL)
+### Шаг 2 — загрузить .glb файл напрямую в S3
+```bash
+curl -X PUT "<upload_url из предыдущего ответа>" \
+  -H "Content-Type: model/gltf-binary" \
+  -H "x-amz-meta-name: sofa" \
+  -H "x-amz-meta-format: glb" \
+  --upload-file ./model.glb
 ```
-PUT <upload_url>
-Content-Type: model/gltf-binary
-x-amz-meta-name: sofa
-x-amz-meta-format: glb
+Response: `200 OK` (пустое тело)
 
-Body: бинарный .glb файл
-```
-
-### Get Model
-```
-GET /api/v1/assets/models/{model_id}
+### Получить модель (download URL для AR)
+```bash
+curl http://130.49.148.135/api/v1/assets/models/edb83f76-9e72-48c9-91b0-3644c34550a6
 ```
 Response:
 ```json
 {
   "model": {
-    "id": "uuid",
+    "id": "edb83f76-9e72-48c9-91b0-3644c34550a6",
     "name": "sofa",
     "format": "glb",
-    "url": "http://... (presigned, 15 min)"
+    "url": "http://100.84.79.40:9000/mapps-assets/models/edb83f76....glb?X-Amz-Algorithm=... (живёт 15 мин)"
   }
 }
 ```
 
-### Get Texture Upload URL
-```json
-{
-  "name": "wood_texture",
-  "mime_type": "image/png"
-}
+### Получить presigned URL для загрузки текстуры
+```bash
+curl -X POST http://130.49.148.135/api/v1/assets/textures/upload-url \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "wood_texture",
+    "mime_type": "image/png"
+  }'
 ```
 Response:
 ```json
 {
-  "upload_url": "http://...",
+  "upload_url": "http://100.84.79.40:9000/mapps-assets/textures/...",
   "asset_id": "uuid"
+}
+```
+
+### Получить текстуру
+```bash
+curl http://130.49.148.135/api/v1/assets/textures/{asset_id}
+```
+Response:
+```json
+{
+  "asset": {
+    "id": "uuid",
+    "name": "wood_texture",
+    "url": "http://100.84.79.40:9000/... (живёт 15 мин)"
+  }
 }
 ```
 
@@ -160,18 +226,44 @@ Response:
 
 ## Viability
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/api/v1/viability/health` | Статус gateway |
-| `GET` | `/api/v1/viability/ready` | Статус всех сервисов (auth, product, asset_manager) |
+### Health Check
+```bash
+curl http://130.49.148.135/api/v1/viability/health
+```
+
+### Readiness (статус всех сервисов)
+```bash
+curl http://130.49.148.135/api/v1/viability/ready
+```
 
 ---
 
-## Asset Upload Flow
+## Полный флоу: загрузка модели и создание продукта
 
-```
-1. POST /api/v1/assets/models/upload-url  →  получить upload_url + model_id
-2. PUT <upload_url> с файлом             →  загрузить файл напрямую в S3
-3. POST /api/v1/mobile/products          →  создать продукт с model_id
-4. GET /api/v1/assets/models/{model_id}  →  получить download url для рендера AR
+```bash
+# 1. Получить upload URL
+RESPONSE=$(curl -s -X POST http://130.49.148.135/api/v1/assets/models/upload-url \
+  -H "Content-Type: application/json" \
+  -d '{"name": "sofa", "format": "glb", "mime_type": "model/gltf-binary"}')
+
+UPLOAD_URL=$(echo $RESPONSE | jq -r '.upload_url')
+MODEL_ID=$(echo $RESPONSE | jq -r '.model_id')
+
+# 2. Загрузить файл
+curl -X PUT "$UPLOAD_URL" \
+  -H "Content-Type: model/gltf-binary" \
+  -H "x-amz-meta-name: sofa" \
+  -H "x-amz-meta-format: glb" \
+  --upload-file ./model.glb
+
+# 3. Создать продукт с model_id
+curl -X POST http://130.49.148.135/api/v1/mobile/products \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"name\": \"Диван угловой\",
+    \"description\": \"Мягкий угловой диван\",
+    \"price\": 49999.99,
+    \"category\": \"sofas\",
+    \"model_id\": \"$MODEL_ID\"
+  }"
 ```
