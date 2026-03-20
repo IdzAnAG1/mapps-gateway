@@ -28,7 +28,7 @@ jobs:
         run: docker rm -f mapps-gateway || true
 
       - name: Docker Pull
-        run: docker pull ${{ secrets.DOCKER_LOGIN }}/mapps-gateway:latest
+        run: docker pull ${{ secrets.DOCKER_LOGIN }}/mappsgateway:latest
 
       - name: Up app container
-        run: docker run -v ~/mapps_gateway_config.yaml:/data/conf/config.yaml --name mapps-gateway -d -p ${{ secrets.GATEWAY_PORT }}:8000 ${{ secrets.DOCKER_LOGIN }}/mapps-gateway:latest
+        run: docker run -v ~/mapps_gateway_config.yaml:/data/conf/config.yaml --name mapps-gateway -d -p ${{ secrets.GATEWAY_PORT }}:8000 ${{ secrets.DOCKER_LOGIN }}/mappsgateway:latest
