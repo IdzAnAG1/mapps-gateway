@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [main, master]
 
-env:
-  IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/mapps-gateway
-
 jobs:
   golangci-lint:
     name: lint
