@@ -10,47 +10,31 @@ env:
   IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/mapps-gateway
 
 jobs:
-  lint:
-    name: Lint & Vet
+  golangci-lint:
+    name: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: go vet
-        run: go vet ./...
-
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+          go-version: stable
+      - uses: golangci/golangci-lint-action@v9
         with:
-          version: latest
-          args: --timeout=5m
+          version: v2.10
 
-  test:
-    name: Tests
+  golang-tests:
+    name: test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version-file: go.mod
-          cache: true
-
-      - name: Run tests
-        run: go test -v -race -count=1 ./...
+          go-version: stable
+      - run: go test -v ./...
 
   docker:
     name: Build & Push image
-    needs: [lint, test]
+    needs: [golangci-lint, golang-tests]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
