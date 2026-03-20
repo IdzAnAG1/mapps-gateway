@@ -29,8 +29,5 @@ coverage.*
 .DS_Store
 Thumbs.db
 
-# Generated proto (regenerate via: make generate_contracts)
-api/generated/
-
-# Wire generated (regenerate via: make wire)
-cmd/mApps_gateway/wire_gen.go
+# Generated proto — kept in git intentionally
+# Wire generated — kept in git intentionally
