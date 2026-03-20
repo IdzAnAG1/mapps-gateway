@@ -9,6 +9,7 @@ import (
 	"mapps_gateway/internal/service"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -27,6 +28,7 @@ func NewHTTPServer(
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
+			logging.Server(logger),
 		),
 		http.ResponseEncoder(func(writer http.ResponseWriter, request *http.Request, a any) error {
 			if m, ok := a.(interface{ proto.Message }); ok {
