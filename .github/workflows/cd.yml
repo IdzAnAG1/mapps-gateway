@@ -1,0 +1,33 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  deployment:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    steps:
+      - name: Docker login
+        run: echo ${{ secrets.DOCKER_AT }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+
+      - name: Download config.yaml
+        run: curl -o ${HOME}/mapps_gateway_config.yaml https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main/configs_example/configs.yaml.example
+
+      - name: Patch config.yaml with secrets
+        run: |
+          sed -i 's|addr: 127.0.0.1:49780|addr: ${{ secrets.AUTH_ADDR }}|g' $HOME/mapps_gateway_config.yaml
+          sed -i 's|addr: 127.0.0.1:49782|addr: ${{ secrets.PRODUCT_ADDR }}|g' $HOME/mapps_gateway_config.yaml
+          sed -i 's|addr: 127.0.0.1:49783|addr: ${{ secrets.ASSET_MANAGER_ADDR }}|g' $HOME/mapps_gateway_config.yaml
+
+      - name: Drop oldest container
+        run: docker rm -f mapps-gateway || true
+
+      - name: Docker Pull
+        run: docker pull ${{ secrets.DOCKER_LOGIN }}/mapps-gateway:latest
+
+      - name: Up app container
+        run: docker run -v ~/mapps_gateway_config.yaml:/data/conf/config.yaml --name mapps-gateway -d -p ${{ secrets.GATEWAY_PORT }}:8000 ${{ secrets.DOCKER_LOGIN }}/mapps-gateway:latest
