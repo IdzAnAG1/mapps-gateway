@@ -12,7 +12,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Docker login
-        run: echo ${{ secrets.DOCKER_AT }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+        run: |
+          echo ${{ secrets.DOCKER_AT }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
 
       - name: Download config.yaml
         run: curl -o ${HOME}/mapps_gateway_config.yaml https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main/configs_example/configs.yaml.example

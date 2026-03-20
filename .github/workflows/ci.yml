@@ -37,7 +37,8 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: docker login
-        run: echo ${{ secrets.DOCKER_AT }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+        run: |
+          echo ${{ secrets.DOCKER_AT }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
 
       - name: docker build
         run: docker build -t ${{ secrets.DOCKER_LOGIN }}/mappsgateway:latest .
